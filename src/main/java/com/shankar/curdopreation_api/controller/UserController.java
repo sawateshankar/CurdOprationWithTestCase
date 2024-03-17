@@ -1,10 +1,13 @@
 package com.shankar.curdopreation_api.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +21,8 @@ import com.shankar.curdopreation_api.entity.User;
 import com.shankar.curdopreation_api.service.UserService;
 
 @RestController
-@RequestMapping("/user")
+@CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("/user/api")
 public class UserController {
 
 	@Autowired
@@ -49,9 +53,11 @@ public class UserController {
 	}
 
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<String> deleteUser(@PathVariable("id") Integer id) {
+	public ResponseEntity<Map<String, Boolean>> deleteUser(@PathVariable("id") Integer id) {
 		this.userService.deleteUser(id);
-		return new ResponseEntity<>("Uesr has been deleted", HttpStatus.OK);
+		Map<String , Boolean> response=new HashMap<>();
+		response.put("Deleted", Boolean.TRUE);
+		return new ResponseEntity<Map<String, Boolean>>(response, HttpStatus.OK);
 	}
 
 }
